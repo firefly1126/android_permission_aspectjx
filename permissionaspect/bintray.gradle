@@ -1,0 +1,82 @@
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+group = LIB_GROUP
+version = LIB_VERSION
+project.archivesBaseName = LIB_ARTIFACT
+
+install {
+    repositories.mavenInstaller {
+// generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                name LIB_ARTIFACT // #CONFIG# // project title
+                url SITE_URL
+
+                licenses {
+                    license {
+                        name LICENCE_NAME
+                        url LICENCE_URL
+                        distribution LICENCE_DIST
+                    }
+                }
+                developers {
+                    developer {
+                        id  DEVELOPER_ID
+                        name DEVELOPER_NAME
+                        email DEVELOPER_EMAIL
+                    }
+                }
+                scm {
+                    connection GIT_URL
+                    developerConnection ISSUE_URL
+                    url SITE_URL
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.sourceFiles
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+    options.encoding = 'UTF-8'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = LIB_ARTIFACT
+        desc = LIB_DES
+        websiteUrl = SITE_URL
+        vcsUrl = GIT_URL
+        issueTrackerUrl = ISSUE_URL
+        licenses = ["Apache-2.0"]
+        labels = 'android'
+        publicDownloadNumbers = true
+        publish = true
+    }
+}

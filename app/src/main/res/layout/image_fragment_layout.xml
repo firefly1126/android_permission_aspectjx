@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:gravity="center">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg_daily_sentence"
+        android:scaleType="center"/>
+
+    <ImageView
+        android:id="@+id/icon_test"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="center"/>
+</RelativeLayout>
