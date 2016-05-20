@@ -13,7 +13,7 @@ compile 'com.firefly1126.permissionaspect:permissionaspect:1.0.0'
 
 ```
 
-[最新版本查看这里]()
+[最新版本查看这里](https://bintray.com/firefly1126/maven/permissionaspect/view)
 
 该库必须配合[aspectjx]使用
 
