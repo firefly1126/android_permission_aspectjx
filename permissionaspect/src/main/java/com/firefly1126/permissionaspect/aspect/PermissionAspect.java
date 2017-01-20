@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.firefly1126.permissionaspect.AspectUtils;
 import com.firefly1126.permissionaspect.CheckPermissionItem;
 import com.firefly1126.permissionaspect.PermissionCheckSDK;
 import com.hujiang.permissiondispatcher.CheckPermission;
@@ -23,7 +22,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,8 +37,8 @@ public class PermissionAspect {
 
     private static Map<String, CheckPermissionItem> checkPermissionItems = new HashMap<String, CheckPermissionItem>();
 
-    @Pointcut("execution(@com.hujiang.permissiondispatcher.NeedPermission * *(..))")
-    public void pointcutOnNeedPermissionMethod() {
+    @Pointcut("execution(@com.hujiang.permissiondispatcher.NeedPermission * *(..)) && @annotation(needPermission)")
+    public void pointcutOnNeedPermissionMethod(NeedPermission needPermission) {
 
     }
 
@@ -49,63 +47,41 @@ public class PermissionAspect {
 
     }
 
-    @Around("pointcutOnNeedPermissionMethod()")
-    public void adviceOnNeedPermissionMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Around("pointcutOnNeedPermissionMethod(needPermission)")
+    public void adviceOnNeedPermissionMethod(final ProceedingJoinPoint joinPoint, NeedPermission needPermission) throws Throwable {
         Log.i("AOP", joinPoint.getSignature().toString());
 
-        Object target = joinPoint.getTarget();
-
-        String[] argTypeStr = AspectUtils.parseArgTypeArrayFromSignature(joinPoint.getSignature().toString());
-
-        try {
-            Method method;
-            Object[] args = joinPoint.getArgs();
-            if (args != null && args.length > 0) {
-                Class<?>[] clazzs = new Class[args.length];
-                for (int i = 0; i < args.length; i++) {
-                    Class<?> c = AspectUtils.getBaseTypeBySimpleName(argTypeStr[i]);
-                    clazzs[i] = (c == null) ? args[i].getClass() : c;
+        if (needPermission != null) {
+            String[] permissions = needPermission.permissions();
+            if (permissions != null && permissions.length > 0) {
+                CheckPermission checkPermission = CheckPermission.from(PermissionCheckSDK.application).setPermissions(permissions);
+                if (!TextUtils.isEmpty(needPermission.rationalMessage())
+                        && !TextUtils.isEmpty(needPermission.rationalButton())) {
+                    checkPermission.setRationaleMsg(needPermission.rationalMessage())
+                            .setRationaleConfirmText(needPermission.rationalButton());
                 }
-                method = target.getClass().getDeclaredMethod(joinPoint.getSignature().getName(), clazzs);
-            } else {
-                method = target.getClass().getDeclaredMethod(joinPoint.getSignature().getName());
-            }
 
-            NeedPermission needPermission = method.getAnnotation(NeedPermission.class);
-            if (needPermission != null) {
-                String[] permissions = needPermission.permissions();
-                if (permissions != null && permissions.length > 0) {
-                    CheckPermission checkPermission = CheckPermission.from(PermissionCheckSDK.application).setPermissions(permissions);
-                    if (!TextUtils.isEmpty(needPermission.rationalMessage())
-                            && !TextUtils.isEmpty(needPermission.rationalButton())) {
-                        checkPermission.setRationaleMsg(needPermission.rationalMessage())
-                                .setRationaleConfirmText(needPermission.rationalButton());
+                if (!TextUtils.isEmpty(needPermission.deniedMessage())
+                        && !TextUtils.isEmpty(needPermission.deniedButton())) {
+                    checkPermission.setDeniedMsg(needPermission.deniedMessage())
+                            .setDeniedCloseButtonText(needPermission.deniedButton());
+                }
+                checkPermission.check(new PermissionListener() {
+                    @Override
+                    public void permissionGranted() {
+                        try {
+                            joinPoint.proceed();
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
                     }
 
-                    if (!TextUtils.isEmpty(needPermission.deniedMessage())
-                            && !TextUtils.isEmpty(needPermission.deniedButton())) {
-                        checkPermission.setDeniedMsg(needPermission.deniedMessage())
-                                .setDeniedCloseButtonText(needPermission.deniedButton());
+                    @Override
+                    public void permissionDenied() {
+
                     }
-                    checkPermission.check(new PermissionListener() {
-                        @Override
-                        public void permissionGranted() {
-                            try {
-                                joinPoint.proceed();
-                            } catch (Throwable throwable) {
-                                throwable.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void permissionDenied() {
-
-                        }
-                    });
-                }
+                });
             }
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
         }
     }
 
@@ -113,7 +89,7 @@ public class PermissionAspect {
     public void adviceOnActivityCreate(final ProceedingJoinPoint joinPoint) throws Throwable {
         Log.d("AOP", joinPoint.getSignature().toString());
 
-        final Activity target = (Activity)joinPoint.getTarget();
+        final Activity target = (Activity) joinPoint.getTarget();
 
         NeedPermission needPermission = target.getClass().getAnnotation(NeedPermission.class);
         if (needPermission != null) {
