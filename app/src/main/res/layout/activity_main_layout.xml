@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.hujiang.normandy.MainActivity">
+        <Button
+            android:id="@+id/permission_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Permission AOP"/>
+        <!--<Button-->
+            <!--android:id="@+id/bi_btn"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="BI AOP"/>-->
+        <!--<Button-->
+            <!--android:id="@+id/exception_btn"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Exception AOP"/>-->
+        <!--<Button-->
+            <!--android:id="@+id/log_btn"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="LOG AOP"/>-->
+        <!--<Button-->
+            <!--android:id="@+id/network_btn"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Network AOP"/>-->
+        <!--<Button-->
+            <!--android:id="@+id/token_btn"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Token AOP"/>-->
+    </LinearLayout>
+</ScrollView>
+

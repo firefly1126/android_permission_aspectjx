@@ -20,7 +20,7 @@ public class PermissionCheckSDK {
     public static Application application;
 
     public static void addCheckPermissionItem(CheckPermissionItem item) {
-        com.firefly1126.permissionaspect.aspect.PermissionAspect.addCheckPermissionItem(item);
+        PermissionAspect.addCheckPermissionItem(item);
     }
 
     public static void init(Application app) {

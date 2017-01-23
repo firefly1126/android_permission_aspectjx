@@ -1,4 +1,3 @@
-
 apply plugin: 'maven'
 
 Properties properties = new Properties()

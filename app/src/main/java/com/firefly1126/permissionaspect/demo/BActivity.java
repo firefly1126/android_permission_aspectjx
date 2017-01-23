@@ -6,12 +6,16 @@
 package com.firefly1126.permissionaspect.demo;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.hujiang.permissiondispatcher.NeedPermission;
+
+import java.text.Collator;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * class description here
@@ -20,16 +24,15 @@ import com.hujiang.permissiondispatcher.NeedPermission;
  * @version 1.0.0
  * @since 2016-05-13
  */
-@NeedPermission(permissions = {Manifest.permission.READ_CONTACTS
-        , Manifest.permission.WRITE_CONTACTS})
-public class BActivity extends Activity {
+
+@NeedPermission(permissions = {Manifest.permission.CAMERA})
+public class BActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.b_activity_layout);
-
         findViewById(R.id.c_activity).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

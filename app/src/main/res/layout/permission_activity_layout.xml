@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView    xmlns:android="http://schemas.android.com/apk/res/android"
+               xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.hujiang.normandy.permission.PermissionActivity"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World!"/>
+        <Button
+            android:id="@+id/add_contact_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="新增联系人"/>
+        <Button
+            android:id="@+id/get_contact_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取联系人"/>
+
+        <Button
+            android:id="@+id/b_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Go to B Activity"/>
+
+        <Button
+            android:id="@+id/_fragment_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Go to FragmentActivity"/>
+        <Button
+            android:id="@+id/_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="login"/>
+
+    </LinearLayout>
+</ScrollView>
+

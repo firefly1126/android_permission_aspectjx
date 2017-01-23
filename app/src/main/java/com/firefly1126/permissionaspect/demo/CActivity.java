@@ -5,8 +5,9 @@
  */
 package com.firefly1126.permissionaspect.demo;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
 
 /**
  * class description here
@@ -15,7 +16,7 @@ import android.os.Bundle;
  * @version 1.0.0
  * @since 2016-05-13
  */
-public class CActivity extends Activity {
+public class CActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

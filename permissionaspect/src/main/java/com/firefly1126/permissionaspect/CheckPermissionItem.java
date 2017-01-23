@@ -6,8 +6,8 @@
 package com.firefly1126.permissionaspect;
 
 import android.text.TextUtils;
-
 import java.io.Serializable;
+import com.hujiang.permissiondispatcher.PermissionItem;
 
 /**
  * class description here
@@ -19,11 +19,7 @@ import java.io.Serializable;
 public class CheckPermissionItem implements Serializable {
 
     public String classPath;
-    public String[] permissions;
-    public String rationalMessage;
-    public String rationalButton;
-    public String deniedMessage;
-    public String deniedButton;
+    public PermissionItem permissionItem;
 
     public CheckPermissionItem(String classPath, String...permissions) {
         if (TextUtils.isEmpty(classPath)) {
@@ -33,31 +29,48 @@ public class CheckPermissionItem implements Serializable {
         if (permissions == null || permissions.length <= 0) {
             throw new IllegalArgumentException("permissions must have one content at least");
         }
-
+        permissionItem = new PermissionItem(permissions);
         this.classPath = classPath;
-        this.permissions = permissions;
     }
 
     public CheckPermissionItem rationalMessage(String rationalMessage) {
-        this.rationalMessage = rationalMessage;
+        permissionItem.rationalMessage(rationalMessage);
 
         return this;
     }
 
     public CheckPermissionItem rationalButton(String rationalButton) {
-        this.rationalButton = rationalButton;
+        permissionItem.rationalButton(rationalButton);
 
         return this;
     }
 
     public CheckPermissionItem deniedMessage(String deniedMessage) {
-        this.deniedMessage = deniedMessage;
+        permissionItem.deniedMessage(deniedMessage);
 
         return this;
     }
 
     public CheckPermissionItem deniedButton(String deniedButton) {
-        this.deniedButton = deniedButton;
+        permissionItem.deniedButton(deniedButton);
+
+        return this;
+    }
+
+    public CheckPermissionItem needGotoSetting(boolean needGotoSetting) {
+        permissionItem.needGotoSetting(needGotoSetting);
+
+        return this;
+    }
+
+    public CheckPermissionItem runIgnorePermission(boolean ignorePermission) {
+        permissionItem.runIgnorePermission(ignorePermission);
+
+        return this;
+    }
+
+    public CheckPermissionItem settingText(String settingText) {
+        permissionItem.settingText(settingText);
 
         return this;
     }

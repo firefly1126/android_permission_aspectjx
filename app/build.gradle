@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-aspectjx'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 23
@@ -13,6 +14,16 @@ android {
         versionName "1.0"
         multiDexEnabled true
     }
+
+
+    sourceSets {
+        main {
+            jni.srcDirs = ['jni']
+            jniLibs.srcDirs = ['libs']
+            java.srcDirs += 'src/main/kotlin'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -20,12 +31,12 @@ android {
         }
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     //use apache lib in android sdk 23
     useLibrary 'org.apache.http.legacy'
-}
-
-aspectjx {
-    jarFilter 'com.firefly1126.permissionaspect/permissionaspect'
 }
 
 dependencies {
@@ -36,4 +47,5 @@ dependencies {
     compile 'com.android.support:support-v13:23.3.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
